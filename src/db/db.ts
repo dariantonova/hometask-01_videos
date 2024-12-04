@@ -9,6 +9,8 @@ export enum Resolutions {
     P2160 = 'P2160',
 }
 
+export type ResolutionsValues = `${Resolutions}`;
+
 export type VideoType = {
     id: number,
     title: string,
@@ -17,7 +19,7 @@ export type VideoType = {
     minAgeRestriction: number | null,
     createdAt: string,
     publicationDate: string,
-    availableResolutions: Resolutions[] | null,
+    availableResolutions: ResolutionsValues[] | null,
 };
 
 export type DBType = { videos: VideoType[] };
@@ -29,3 +31,26 @@ export const db: DBType = {
 export const setDb = (videos: VideoType[] | undefined) => {
     db.videos = videos ? videos : [];
 };
+
+setDb([
+    {
+        id: 1,
+        title: 'video 1',
+        author: 'author 1',
+        canBeDownloaded: false,
+        minAgeRestriction: null,
+        createdAt: new Date().toISOString(),
+        publicationDate: new Date().toISOString(),
+        availableResolutions: null,
+    },
+    {
+        id: 2,
+        title: 'video 2',
+        author: 'author 2',
+        canBeDownloaded: true,
+        minAgeRestriction: 18,
+        createdAt: new Date().toISOString(),
+        publicationDate: new Date().toISOString(),
+        availableResolutions: ['P720'],
+    }
+]);
