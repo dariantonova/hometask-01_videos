@@ -2,8 +2,9 @@ import {req} from "./test-helpers";
 import {SETTINGS} from "../src/settings";
 import {HTTP_STATUSES} from "../src/utils";
 import {setDb, VideoType} from "../src/db/db";
+import {mapVideoToViewModel} from "../src/routes/videos.router";
 
-describe('sandbox tests', () => {
+describe('tests for /videos', () => {
     beforeAll(async () => {
         await req
             .delete(SETTINGS.PATH.TESTING + '/all-data');
@@ -44,5 +45,11 @@ describe('sandbox tests', () => {
         await req
             .get(SETTINGS.PATH.VIDEOS)
             .expect(HTTP_STATUSES.OK_200, createdVideos);
+    });
+
+    it('should return second video', async () => {
+        await req
+            .get(SETTINGS.PATH.VIDEOS + '/' + 2)
+            .expect(HTTP_STATUSES.OK_200, mapVideoToViewModel(createdVideos[1]));
     });
 });
