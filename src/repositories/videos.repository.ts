@@ -4,4 +4,7 @@ export const videosRepository = {
     findVideos(): VideoType[] {
         return db.videos;
     },
+    deleteAllVideos() {
+        db.videos.length = 0;
+    },
 }
