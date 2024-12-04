@@ -3,6 +3,7 @@ import {SETTINGS} from "../src/settings";
 import {HTTP_STATUSES} from "../src/utils";
 import {setDb, VideoType} from "../src/db/db";
 import {mapVideoToViewModel} from "../src/routes/videos.router";
+import {videoTestManager} from "./video-test-manager";
 
 describe('tests for /videos', () => {
     beforeAll(async () => {
@@ -51,5 +52,95 @@ describe('tests for /videos', () => {
         await req
             .get(SETTINGS.PATH.VIDEOS + '/' + 2)
             .expect(HTTP_STATUSES.OK_200, mapVideoToViewModel(createdVideos[1]));
+    });
+
+    it(`shouldn't create video with incorrect input data`, async () => {
+        const data = [];
+
+        const data1 = {
+            title: '  ',
+            author: 'author',
+            availableResolutions: ['P360'],
+        };
+        data.push(data1);
+
+        const data2 = {
+            author: 'author',
+            availableResolutions: ['P360'],
+        };
+        data.push(data2);
+
+        const data3 = {
+            title: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            author: 'author',
+            availableResolutions: ['P360'],
+        };
+        data.push(data3);
+
+        const data4 = {
+            title: 'title',
+            author: '  ',
+            availableResolutions: ['P360'],
+        };
+        data.push(data4);
+
+        const data5 = {
+            title: 'title',
+            availableResolutions: ['P360'],
+        };
+        data.push(data5);
+
+        const data6 = {
+            title: 'title',
+            author: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            availableResolutions: ['P360'],
+        };
+        data.push(data6);
+
+        const data7 = {
+            title: 'title',
+            author: 'author',
+            availableResolutions: ['P2'],
+        };
+        data.push(data7);
+
+        const data8 = {
+            title: 'title',
+            author: 'author',
+            availableResolutions: [],
+        };
+        data.push(data8);
+
+        for (const dataItem of data) {
+            await videoTestManager.createVideo(dataItem, HTTP_STATUSES.BAD_REQUEST_400);
+        }
+    });
+
+    it('should create video with correct input data', async () => {
+        const data = [];
+
+        const data1 = {
+            title: 'title',
+            author: 'author',
+        };
+        data.push(data1);
+
+        const data2 = {
+            title: 'title',
+            author: 'author',
+            availableResolutions: null,
+        };
+        data.push(data2);
+
+        const data3 = {
+            title: 'title',
+            author: 'author',
+            availableResolutions: ['P360', 'P1440'],
+        };
+        data.push(data3);
+
+        for (const dataItem of data) {
+            await videoTestManager.createVideo(dataItem, HTTP_STATUSES.CREATED_201);
+        }
     });
 });

@@ -5,6 +5,9 @@ import {testsRouter} from "./routes/tests.router";
 
 const app = express();
 
+const jsonBodyMiddleware = express.json();
+app.use(jsonBodyMiddleware);
+
 app.use(SETTINGS.PATH.VIDEOS, videosRouter);
 app.use(SETTINGS.PATH.TESTING, testsRouter);
 
