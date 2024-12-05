@@ -38,10 +38,10 @@ export const videosRepository = {
         video.title = title;
         video.author = author;
 
-        if (availableResolutions) {
+        if (typeof availableResolutions !== 'undefined') {
             video.availableResolutions = availableResolutions;
         }
-        if (canBeDownloaded) {
+        if (typeof canBeDownloaded !== 'undefined') {
             video.canBeDownloaded = canBeDownloaded;
         }
         if (typeof minAgeRestriction !== 'undefined') {
