@@ -224,4 +224,20 @@ describe('tests for /videos', () => {
             await videoTestManager.updateVideo(1, dataItem, HTTP_STATUSES.NO_CONTENT_204);
         }
     });
+
+    it('should return 404 when deleting non-existing video', async () => {
+        await req
+            .delete(SETTINGS.PATH.VIDEOS + '/' + -100)
+            .expect(HTTP_STATUSES.NOT_FOUND_404);
+    });
+
+    it('should delete first video', async () => {
+        await req
+            .delete(SETTINGS.PATH.VIDEOS + '/' + 1)
+            .expect(HTTP_STATUSES.NO_CONTENT_204);
+
+        await req
+            .get(SETTINGS.PATH.VIDEOS + '/' + 1)
+            .expect(HTTP_STATUSES.NOT_FOUND_404);
+    });
 });
