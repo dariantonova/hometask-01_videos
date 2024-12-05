@@ -27,6 +27,32 @@ export const videosRepository = {
 
         return createdVideo;
     },
+    updateVideo(id: number, title: string, author: string, availableResolutions: ResolutionsValues[] | null | undefined,
+                canBeDownloaded: boolean | undefined, minAgeRestriction: number | null | undefined,
+                publicationDate: string | undefined): boolean {
+        const video = db.videos.find(v => v.id === id);
+        if (!video) {
+            return false;
+        }
+
+        video.title = title;
+        video.author = author;
+
+        if (availableResolutions) {
+            video.availableResolutions = availableResolutions;
+        }
+        if (canBeDownloaded) {
+            video.canBeDownloaded = canBeDownloaded;
+        }
+        if (typeof minAgeRestriction !== 'undefined') {
+            video.minAgeRestriction = minAgeRestriction;
+        }
+        if (publicationDate) {
+            video.publicationDate = new Date(publicationDate).toISOString();
+        }
+
+        return true;
+    },
     deleteAllVideos() {
         db.videos.length = 0;
     },

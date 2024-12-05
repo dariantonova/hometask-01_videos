@@ -2,15 +2,19 @@ import {Router, Request, Response} from 'express';
 import {videosRepository} from "../repositories/videos.repository";
 import {VideoType} from "../db/db";
 import {VideoViewModel} from "../models/VideoViewModel";
-import {APIErrorResult, FieldError, RequestWithBody, RequestWithParams} from "../types";
+import {APIErrorResult, FieldError, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types";
 import {URIParamsVideoIdModel} from "../models/URIParamsVideoIdModel";
 import {HTTP_STATUSES} from "../utils";
 import {CreateVideoInputModel} from "../models/CreateVideoInputModel";
 import {
     authorFieldValidator,
     availableResolutionsFieldValidator,
+    canBeDownloadedFieldValidator,
+    minAgeRestrictionFieldValidator,
+    publicationDateFieldValidator,
     titleFieldValidator
 } from "../validation/field-validator";
+import {UpdateVideoInputModel} from "../models/UpdateVideoInputModel";
 
 export const mapVideoToViewModel = (dbVideo: VideoType): VideoViewModel => {
     return {
@@ -69,6 +73,37 @@ router.post('/',
     res
         .status(HTTP_STATUSES.CREATED_201)
         .json(mapVideoToViewModel(createdVideo));
+});
+
+router.put('/:id',
+    (req: RequestWithParamsAndBody<URIParamsVideoIdModel, UpdateVideoInputModel>,
+     res: Response<{} | APIErrorResult>) => {
+    const errors: FieldError[] = [];
+    titleFieldValidator(req.body.title, errors);
+    authorFieldValidator(req.body.author, errors);
+    availableResolutionsFieldValidator(req.body.availableResolutions, errors);
+    canBeDownloadedFieldValidator(req.body.canBeDownloaded, errors);
+    minAgeRestrictionFieldValidator(req.body.minAgeRestriction, errors);
+    publicationDateFieldValidator(req.body.publicationDate, errors);
+    if (errors.length > 0) {
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .json({
+                errorsMessages: errors,
+            });
+        return;
+    }
+
+    const isUpdated = videosRepository.updateVideo(
+        +req.params.id, req.body.title, req.body.author, req.body.availableResolutions,
+        req.body.canBeDownloaded, req.body.minAgeRestriction, req.body.publicationDate
+    );
+    if (!isUpdated) {
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+        return;
+    }
+
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
 export { router as videosRouter };
