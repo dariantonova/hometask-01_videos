@@ -53,6 +53,15 @@ export const videosRepository = {
 
         return true;
     },
+    deleteVideo(id: number): boolean {
+        for (let i = 0; i < db.videos.length; i++) {
+            if (db.videos[i].id === id) {
+                db.videos.splice(i, 1);
+                return true;
+            }
+        }
+        return false;
+    },
     deleteAllVideos() {
         db.videos.length = 0;
     },

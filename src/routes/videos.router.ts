@@ -106,4 +106,15 @@ router.put('/:id',
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
+router.delete('/:id',
+    (req: RequestWithParams<URIParamsVideoIdModel>, res: Response) => {
+    const isDeleted = videosRepository.deleteVideo(+req.params.id);
+    if (!isDeleted) {
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+        return;
+    }
+
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
+});
+
 export { router as videosRouter };
