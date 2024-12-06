@@ -51,6 +51,6 @@ setDb([
         minAgeRestriction: 18,
         createdAt: new Date().toISOString(),
         publicationDate: new Date().toISOString(),
-        availableResolutions: ['P720'],
+        availableResolutions: [Resolutions.P720],
     }
 ]);

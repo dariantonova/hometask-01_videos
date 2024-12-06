@@ -1,7 +1,7 @@
 import {req} from "./test-helpers";
 import {SETTINGS} from "../src/settings";
 import {HTTP_STATUSES} from "../src/utils";
-import {setDb, VideoType} from "../src/db/db";
+import {Resolutions, setDb, VideoType} from "../src/db/db";
 import {mapVideoToViewModel} from "../src/routes/videos.router";
 import {videoTestManager} from "./video-test-manager";
 import {UpdateVideoInputModel} from "../src/models/UpdateVideoInputModel";
@@ -39,7 +39,7 @@ describe('tests for /videos', () => {
                 minAgeRestriction: 18,
                 createdAt: new Date().toISOString(),
                 publicationDate: new Date().toISOString(),
-                availableResolutions: ['P720'],
+                availableResolutions: [Resolutions.P720],
             }
         ];
         setDb(createdVideos);
@@ -61,40 +61,40 @@ describe('tests for /videos', () => {
         const data1 = {
             title: '  ',
             author: 'author',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data1);
 
         const data2 = {
             author: 'author',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data2);
 
         const data3 = {
             title: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             author: 'author',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data3);
 
         const data4 = {
             title: 'title',
             author: '  ',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data4);
 
         const data5 = {
             title: 'title',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data5);
 
         const data6 = {
             title: 'title',
             author: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            availableResolutions: ['P360'],
+            availableResolutions: [Resolutions.P360],
         };
         data.push(data6);
 
@@ -136,7 +136,7 @@ describe('tests for /videos', () => {
         const data3 = {
             title: 'title',
             author: 'author',
-            availableResolutions: ['P360', 'P1440'],
+            availableResolutions: [Resolutions.P360, Resolutions.P1440],
         };
         data.push(data3);
 
@@ -204,7 +204,7 @@ describe('tests for /videos', () => {
         const data1: UpdateVideoInputModel = {
             title: 'title',
             author: 'author',
-            availableResolutions: ['P1080'],
+            availableResolutions: [Resolutions.P1080],
             canBeDownloaded: true,
             minAgeRestriction: 16,
             publicationDate: '2024',
