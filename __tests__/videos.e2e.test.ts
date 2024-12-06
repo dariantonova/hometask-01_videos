@@ -49,7 +49,7 @@ describe('tests for /videos', () => {
             .expect(HTTP_STATUSES.OK_200, createdVideos);
     });
 
-    it('should return second video', async () => {
+    it('should return the second video', async () => {
         await req
             .get(SETTINGS.PATH.VIDEOS + '/' + 2)
             .expect(HTTP_STATUSES.OK_200, mapVideoToViewModel(createdVideos[1]));
@@ -231,7 +231,7 @@ describe('tests for /videos', () => {
             .expect(HTTP_STATUSES.NOT_FOUND_404);
     });
 
-    it('should delete first video', async () => {
+    it('should delete the first video', async () => {
         await req
             .delete(SETTINGS.PATH.VIDEOS + '/' + 1)
             .expect(HTTP_STATUSES.NO_CONTENT_204);
