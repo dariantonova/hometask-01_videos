@@ -14,16 +14,18 @@ export const titleFieldValidator = (title: any, errors: FieldError[]) => {
             field: 'title',
             message: 'Must be a string',
         });
+        return;
     }
 
-    if (typeof title === 'string' && title.trim().length < 1) {
+    if (title.trim().length < 1) {
         errors.push({
             field: 'title',
             message: 'Title is required',
         });
+        return;
     }
 
-    if (typeof title === 'string' && title.length > 40) {
+    if (title.length > 40) {
         errors.push({
             field: 'title',
             message: 'More than 40 symbols',
@@ -45,16 +47,18 @@ export const authorFieldValidator = (author: any, errors: FieldError[]) => {
             field: 'author',
             message: 'Must be a string',
         });
+        return;
     }
 
-    if (typeof author === 'string' && author.trim().length < 1) {
+    if (author.trim().length < 1) {
         errors.push({
             field: 'author',
             message: 'Author is required',
         });
+        return;
     }
 
-    if (typeof author === 'string' && author.length > 20) {
+    if (author.length > 20) {
         errors.push({
             field: 'author',
             message: 'More than 20 symbols',
@@ -67,23 +71,27 @@ export const availableResolutionsFieldValidator = (
     if (!Array.isArray(availableResolutions) && availableResolutions != null) {
         errors.push({
             field: 'availableResolutions',
-            message: 'Must be an array',
+            message: 'Must be an array or null',
         });
     }
-    if (Array.isArray(availableResolutions)) {
-        if (availableResolutions.length < 1) {
-            errors.push({
-                field: 'availableResolutions',
-                message: 'Must contain at least one element',
-            });
-        }
-        availableResolutions.forEach(resolution => {
-            if (!Resolutions[resolution]) {
-                errors.push({
-                    field: 'availableResolutions',
-                    message: `${resolution} is invalid value`,
-                });
-            }
+
+    if (!Array.isArray(availableResolutions)) {
+        return;
+    }
+
+    if (availableResolutions.length < 1) {
+        errors.push({
+            field: 'availableResolutions',
+            message: 'Must contain at least one element',
+        });
+        return;
+    }
+
+    const invalidResolutions = availableResolutions.filter(resolution => !Resolutions[resolution]);
+    if (invalidResolutions.length > 0) {
+        errors.push({
+            field: 'availableResolutions',
+            message: `Invalid resolutions: ${invalidResolutions}`,
         });
     }
 };
@@ -103,22 +111,28 @@ export const minAgeRestrictionFieldValidator = (
     if (typeof minAgeRestriction !== 'number' && minAgeRestriction != null) {
         errors.push({
             field: 'minAgeRestriction',
-            message: 'Must be a number',
+            message: 'Must be a number or null',
         });
+        return;
     }
-    if (typeof minAgeRestriction === 'number') {
-        if (!Number.isInteger(minAgeRestriction)) {
-            errors.push({
-                field: 'minAgeRestriction',
-                message: 'Must be an integer',
-            });
-        }
-        if (minAgeRestriction < 1 || minAgeRestriction > 18) {
-            errors.push({
-                field: 'minAgeRestriction',
-                message: 'Must be between 1 and 18',
-            });
-        }
+
+    if (typeof minAgeRestriction !== 'number') {
+        return;
+    }
+
+    if (!Number.isInteger(minAgeRestriction)) {
+        errors.push({
+            field: 'minAgeRestriction',
+            message: 'Must be an integer',
+        });
+        return;
+    }
+
+    if (minAgeRestriction < 1 || minAgeRestriction > 18) {
+        errors.push({
+            field: 'minAgeRestriction',
+            message: 'Must be between 1 and 18',
+        });
     }
 };
 
@@ -128,7 +142,9 @@ export const publicationDateFieldValidator = (publicationDate: any, errors: Fiel
             field: 'publicationDate',
             message: 'Must be a string',
         });
+        return;
     }
+
     if (typeof publicationDate === 'string' && isNaN(new Date(publicationDate).getTime())) {
         errors.push({
             field: 'publicationDate',
