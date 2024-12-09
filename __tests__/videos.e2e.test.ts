@@ -1,10 +1,11 @@
 import {req} from "./test-helpers";
 import {SETTINGS} from "../src/settings";
 import {HTTP_STATUSES} from "../src/utils";
-import {Resolutions, setDb, VideoType} from "../src/db/db";
+import {setDb} from "../src/db/db";
 import {mapVideoToViewModel} from "../src/routes/videos.router";
 import {videoTestManager} from "./video-test-manager";
 import {UpdateVideoInputModel} from "../src/models/UpdateVideoInputModel";
+import {Resolutions, VideoType} from "../src/types";
 
 describe('tests for /videos', () => {
     beforeAll(async () => {

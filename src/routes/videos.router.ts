@@ -1,8 +1,14 @@
 import {Router, Request, Response} from 'express';
 import {videosRepository} from "../repositories/videos.repository";
-import {VideoType} from "../db/db";
 import {VideoViewModel} from "../models/VideoViewModel";
-import {APIErrorResult, FieldError, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types";
+import {
+    APIErrorResult,
+    FieldError,
+    RequestWithBody,
+    RequestWithParams,
+    RequestWithParamsAndBody,
+    VideoType
+} from "../types";
 import {URIParamsVideoIdModel} from "../models/URIParamsVideoIdModel";
 import {HTTP_STATUSES} from "../utils";
 import {CreateVideoInputModel} from "../models/CreateVideoInputModel";

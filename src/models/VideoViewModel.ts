@@ -1,4 +1,4 @@
-import {ResolutionsValues} from "../db/db";
+import {ResolutionsValues} from "../types";
 
 export type VideoViewModel = {
     id: number,

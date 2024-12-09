@@ -1,4 +1,5 @@
-import {db, ResolutionsValues, VideoType} from "../db/db";
+import {db} from "../db/db";
+import {ResolutionsValues, VideoType} from "../types";
 
 const DAY_DURATION_MS = 24 * 60 * 60 * 1000;
 

@@ -1,5 +1,4 @@
-import {FieldError} from "../types";
-import {Resolutions, ResolutionsValues} from "../db/db";
+import {FieldError, Resolutions, ResolutionsValues} from "../types";
 
 export const titleFieldValidator = (title: any, errors: FieldError[]) => {
     if (!title) {
