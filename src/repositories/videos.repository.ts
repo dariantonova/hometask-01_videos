@@ -1,5 +1,7 @@
 import {db, ResolutionsValues, VideoType} from "../db/db";
 
+const DAY_DURATION_MS = 24 * 60 * 60 * 1000;
+
 export const videosRepository = {
     findVideos(): VideoType[] {
         return db.videos;
@@ -10,8 +12,7 @@ export const videosRepository = {
     createVideo(title: string, author: string,
                 availableResolutions: ResolutionsValues[] | null | undefined): VideoType {
         const currentTime = new Date();
-        const dayDurationMs = 24 * 60 * 60 * 1000;
-        const nextDay = new Date(currentTime.getTime() + dayDurationMs);
+        const nextDay = new Date(currentTime.getTime() + DAY_DURATION_MS);
 
         const createdVideo: VideoType = {
             id: +(new Date()),
