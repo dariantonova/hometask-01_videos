@@ -1,7 +1,7 @@
 import {req} from "./test-helpers";
 import {SETTINGS} from "../src/settings";
 import {HTTP_STATUSES} from "../src/utils";
-import {setDb} from "../src/db/db";
+import {setDB} from "../src/db/db";
 import {mapVideoToViewModel} from "../src/routes/videos.router";
 import {videoTestManager} from "./video-test-manager";
 import {UpdateVideoInputModel} from "../src/models/UpdateVideoInputModel";
@@ -43,7 +43,7 @@ describe('tests for /videos', () => {
                 availableResolutions: [Resolutions.P720],
             }
         ];
-        setDb(createdVideos);
+        setDB({ videos: createdVideos });
 
         await req
             .get(SETTINGS.PATH.VIDEOS)

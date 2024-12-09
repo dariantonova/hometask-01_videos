@@ -4,11 +4,16 @@ export const db: DBType = {
     videos: [],
 };
 
-export const setDb = (videos: VideoType[] | undefined) => {
-    db.videos = videos ? videos : [];
+export const setDB = (dataset?: Partial<DBType>) => {
+    if (!dataset) {
+        db.videos = [];
+        return;
+    }
+
+    db.videos = dataset.videos || db.videos;
 };
 
-setDb([
+const videos: VideoType[] = [
     {
         id: 1,
         title: 'video 1',
@@ -29,4 +34,5 @@ setDb([
         publicationDate: new Date().toISOString(),
         availableResolutions: [Resolutions.P720],
     }
-]);
+];
+setDB({ videos });
