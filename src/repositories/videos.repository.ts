@@ -50,7 +50,7 @@ export const videosRepository = {
         if (typeof minAgeRestriction !== 'undefined') {
             video.minAgeRestriction = minAgeRestriction;
         }
-        if (publicationDate) {
+        if (typeof publicationDate !== 'undefined') {
             video.publicationDate = new Date(publicationDate).toISOString();
         }
 
